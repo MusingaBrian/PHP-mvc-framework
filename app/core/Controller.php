@@ -32,7 +32,16 @@ class Controller
 
      public function model($model) 
      {
-        $filename = "app/models";
+        $filename = "app/models".ucfirst($model).".php";
+
+        if(file_exists($filename))
+        {
+            require $filename;
+
+            return new $model();
+        }
+
+        return false; 
      }
 
 }
