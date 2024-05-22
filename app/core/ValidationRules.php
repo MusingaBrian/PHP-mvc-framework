@@ -95,7 +95,7 @@ class ValidationRules
     }
 
     /**
-     * Check if password has at least
+     * check if password has at least
      * - one lowercase letter
      * - one uppercase letter
      * - one number
@@ -106,107 +106,8 @@ class ValidationRules
      * @see http://stackoverflow.com/questions/8141125/regex-for-password-php
      * @see http://code.runnable.com/UmrnTejI6Q4_AAIM/how-to-validate-complex-passwords-using-regular-expressions-for-php-and-pcre
      */
-
     public static function password($value)
     {
         return preg_match_all('$\S*(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$', $value);
-    }
-
-    /**
-     * Check if value is equals to another value(strings)
-     *
-     * @param  string  $value
-     * @param  array   $args(value)
-     * @return bool
-     */
-    public function equalTo($value, $args)
-    {
-        return $value === $args[0];
-    }
-
-    /**
-     * Check if value is not equal to another value(strings)
-     *
-     * @param  string  $value
-     * @param  array   $args(value)
-     * @return bool
-     */
-    public static function notEqualTo($value, $args)
-    {
-        return $value !==  $args[0];
-    }
-
-    /**
-     * =======================================================
-     * =                                                ======
-     * =               Database Validations             ======
-     * =                                                ======
-     * =======================================================
-     */
-
-    /**
-     * Check if a value of a column is unique.
-     *
-     * @param  string  $value
-     * @param  array   $args(table, column)
-     * @return bool
-     */
-    public function unique($value, $args)
-    {
-
-        $table = $args[0];
-        $col   = $args[1];
-
-        $this->db = Database::open_db();
-        $this->db->prepare("SELECT * FROM {$table} WHERE {$col} = :{$col}");
-        $this->db->bindValue(":{$col}", $value);
-        $this->db->execute();
-
-        return $this->db->countRows() === 0;
-    }
-
-    /**
-     * check if email is unique
-     * This will check if email exists and activated.
-     *
-     * @param  string  $email
-     * @return bool
-     */
-    public function emailUnique($email)
-    {
-
-        $this->db = Database::open_db();
-
-        // email is unique in the database, So, we can't have more than 2 same emails
-        $this->db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
-        $this->db->bindValue(':email', $email);
-        $this->db->execute();
-        $user =  $this->db->fetchAssociative();
-
-        if ($this->db->countRows() === 1) {
-
-            if (!empty($user["is_email_activated"])) {
-                return false;
-            } else {
-
-                $expiry_time = (24 * 60 * 60);
-                $time_elapsed = time() - $user['email_last_verification'];
-
-                // If time elapsed exceeded the expiry time, it worth to reset the token, and the email as well.
-                // This indicates the email of $user hasn't been verified, and token is expired.
-                if ($time_elapsed >= $expiry_time) {
-
-                    // $login = new AuthModel();
-                    // $login->resetEmailVerificationToken($user["id"], false);
-                    return true;
-                } else {
-
-                    // TODO check if $email is same as current user's email(not-activated),
-                    // then ask the user to verify his email
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }
