@@ -19,26 +19,31 @@ It Features the following Components
 The Folder Structure of the Framework
 
 ```
-└── 📁app
-    └── bootstrap.php
-    └── 📁config
-        └── config.php
-    └── 📁controllers
-        └── Home.php
-        └── _404.php
-    └── 📁core
-        └── App.php
-        └── Config.php
-        └── Controller.php
-        └── Database.php
-        └── Model.php
-        └── Redirect.php
-        └── Request.php
-        └── ValidationRules.php
-    └── 📁helper
-        └── functions.php
-    └── 📁models
-    └── 📁views
-        └── 404.php
-        └── welcome.php
+└── 📁mvc-framework
+    └── 📁app
+        └── bootstrap.php
+        └── 📁config
+            └── config.php
+        └── 📁controllers
+            └── Home.php
+            └── _404.php
+        └── 📁core
+            └── App.php
+            └── Config.php
+            └── Controller.php
+            └── Database.php
+            └── Model.php
+            └── Redirect.php
+            └── Request.php
+            └── ValidationRules.php
+        └── 📁helper
+            └── functions.php
+        └── 📁models
+        └── 📁views
+            └── 404.php
+            └── welcome.php
+    └── index.php
+    └── 📁public
+        └── .htaccess
+    └── README.md
 ```
