@@ -2,13 +2,16 @@
 
 ---
 
-This is a Light Weight Frame build from in order to understand how frameworks like **laravel** work internally.
+This is a Light Weight PHP Framework built from order to understand and appreciate in order to understand how frameworks like **laravel** and **Symphony** work internally.
 
-IT Feature the following Components
+It is written in **OOP** Programming Paradigm using design patterns such as singleton, facade and more...
+
+It Features the following Components
 
 - Router
 - Controller
 - Model
 - View
 - Database Helper Method
+- Validation Methods
 - More
