@@ -110,4 +110,16 @@ class ValidationRules
     {
         return preg_match_all('$\S*(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$', $value);
     }
+
+    /**
+     * Check if value is equals to another value(strings)
+     *
+     * @param  string  $value
+     * @param  array   $args(value)
+     * @return bool
+     */
+    public function equals($value, $args)
+    {
+        return $value === $args[0];
+    }
 }
