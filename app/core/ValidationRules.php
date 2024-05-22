@@ -277,15 +277,15 @@ class ValidationRules
     /**
      * checks if file unique.
      *
-     * @param  array  $path
+     * @param  string  $filepath
      * @return bool
      *
      *
      */
 
-    private function fileUnique($path)
+    private function fileUnique($filepath)
     {
-        return !file_exists($path);
+        return !file_exists($filepath);
     }
 
     /**
@@ -356,6 +356,23 @@ class ValidationRules
             return false;
         }
         if ($imageSize["width"] > $dimensions[0] || $imageSize["height"] > $dimensions[1]) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * validate file extension returned from pathinfo() Vs mapped mime type to extension
+     *
+     * This reveal un desired errors in case of files with extension: zip, csv, ..etc
+     *   
+     */
+
+    public function fileExtension($image, $allowed = array())
+    {
+        $image = $_FILES['image']['name'];
+        $extension = pathinfo($image, PATHINFO_EXTENSION);
+        if (!in_array($extension, $allowed)) {
             return false;
         }
         return true;
