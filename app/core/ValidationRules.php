@@ -118,8 +118,20 @@ class ValidationRules
      * @param  array   $args(value)
      * @return bool
      */
-    public function equals($value, $args)
+    public function equalTo($value, $args)
     {
         return $value === $args[0];
+    }
+
+    /**
+     * Check if value is not equal to another value(strings)
+     *
+     * @param  string  $value
+     * @param  array   $args(value)
+     * @return bool
+     */
+    public static function notEqualTo($value, $args)
+    {
+        return $value !==  $args[0];
     }
 }
