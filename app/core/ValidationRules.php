@@ -265,4 +265,77 @@ class ValidationRules
             return true;
         }
     }
+
+    /**
+     * =======================================================
+     * =                                                ======
+     * =                    File Validations            ======
+     * =                                                ======
+     * =======================================================
+     */
+
+    /**
+     * checks if file unique.
+     *
+     * @param  array  $path
+     * @return bool
+     *
+     *
+     */
+
+    private function fileUnique($path)
+    {
+        return !file_exists($path);
+    }
+
+    /**
+     * checks for file errors
+     *
+     * @param  array   $file
+     * @return bool
+     */
+    private function fileErrors($file)
+    {
+        return (int)$file['error'] === UPLOAD_ERR_OK;
+    }
+
+    /**
+     * checks if file uploaded successfully via HTTP POST
+     *
+     * @param  array   $file
+     * @return bool
+     *
+     * @see
+     */
+    private function fileUploaded($file)
+    {
+        return is_uploaded_file($file["tmp_name"]);
+    }
+
+    /**
+     * checks from file size
+     *
+     * @param  array   $file
+     * @param  array   $args(min,max)
+     * @return bool
+     */
+    public function fileSize($file, $args)
+    {
+
+        // size in bytes,
+        // 1 KB = 1024 bytes, and 1 MB = 1048,576 bytes.
+        $size = array("min" => (int)$args[0], "max" => (int)$args[1]);
+
+        if ($file['size'] > $size['max']) {
+            Session::set('danger', "File size can't exceed max limit (" . ($size['max'] / 102400) . " MB)");
+            return false;
+        }
+
+        // better not to say the min limits.
+        if ($file['size'] < $size['min']) {
+            Session::set('danger', "File size either is too small or corrupted");
+            return false;
+        }
+        return true;
+    }
 }
