@@ -338,4 +338,26 @@ class ValidationRules
         }
         return true;
     }
+
+    /**
+     * checks from image size(dimensions)
+     *
+     * @param  array   $file
+     * @param  array   $dimensions(width,height)
+     * @return bool
+     */
+    public function imageSize($file, $dimensions)
+    {
+
+        $imageSize  = array('width' => 0, 'height' => 0);
+        list($imageSize['width'], $imageSize['height'])   = getimagesize($file["tmp_name"]);
+
+        if ($imageSize["width"] < 10 || $imageSize["height"] < 10) {
+            return false;
+        }
+        if ($imageSize["width"] > $dimensions[0] || $imageSize["height"] > $dimensions[1]) {
+            return false;
+        }
+        return true;
+    }
 }
