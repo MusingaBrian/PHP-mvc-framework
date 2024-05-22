@@ -208,4 +208,27 @@ class ValidationRules
         }
         return true;
     }
+
+    /**
+     * =======================================================
+     * =                                                ======
+     * =                   Login Validations            ======
+     * =                                                ======
+     * =======================================================
+     */
+
+    /**
+     * Check if user credentials are valid or not.
+     *
+     * @param  array   $user
+     * @return bool
+     * @see Login::doLogin()
+     */
+    public function credentials($user)
+    {
+        if (empty($user["hashed_password"]) || empty($user["user_id"])) {
+            return false;
+        }
+        return password_verify($user["password"], $user["hashed_password"]);
+    }
 }
