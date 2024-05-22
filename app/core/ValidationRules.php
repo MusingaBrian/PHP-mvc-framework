@@ -231,4 +231,38 @@ class ValidationRules
         }
         return password_verify($user["password"], $user["hashed_password"]);
     }
+
+    /**
+     * Check if user has exceeded number of failed logins or number of forgotten password attempts.
+     *
+     * @param  array   $attempts
+     * @return bool
+     */
+    public function attempts($attempts)
+    {
+
+        if (empty($attempts['last_time']) && empty($attempts['count'])) {
+            return true;
+        }
+
+        $block_time = (10 * 60);
+        $time_elapsed = time() - $attempts['last_time'];
+
+        // TODO If user is Blocked, Update failed logins/forgotten passwords
+        // to current time and optionally number of attempts to be incremented,
+        // but, this will reset the last_time every time there is a failed attempt
+
+        if ($attempts["count"] >= 3 && $time_elapsed < $block_time) {
+
+            // here i can't define a default error message as in defaultMessages()
+            // because the error message depends on variables like $block_time & $time_elapsed
+            Session::set('danger', "You exceeded number of possible attempts, please try again later after " .
+
+                date("i", $block_time - $time_elapsed) . " minutes");
+            return false;
+        } else {
+
+            return true;
+        }
+    }
 }
