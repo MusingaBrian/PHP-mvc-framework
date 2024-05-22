@@ -134,4 +134,33 @@ class ValidationRules
     {
         return $value !==  $args[0];
     }
+
+    /**
+     * =======================================================
+     * =                                                ======
+     * =                 Database Validations           ======
+     * =                                                ======
+     * =======================================================
+     */
+
+    /**
+     * Check if a value of a column is unique.
+     *
+     * @param  string  $value
+     * @param  array   $args(table, column)
+     * @return bool
+     */
+    public function unique($value, $args)
+    {
+
+        $table = $args[0];
+        $col   = $args[1];
+
+        $this->db = Database::open_db();
+        $this->db->prepare("SELECT * FROM {$table} WHERE {$col} = :{$col}");
+        $this->db->bindValue(":{$col}", $value);
+        $this->db->execute();
+
+        return $this->db->countRows() === 0;
+    }
 }
